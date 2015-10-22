@@ -23,7 +23,7 @@ public class Printer
 
     public static void main(String[] args) throws Exception
     {
-        File folder = new File("/users/huimin/Desktop/uml-parser-test-4");
+        File folder = new File("/users/huimin/Desktop/uml-parser-test-1");
         File[] listOfFiles = folder.listFiles();
 
         FileInputStream in;
@@ -90,7 +90,7 @@ public class Printer
 
 
 
-        OutputStream png = new FileOutputStream("/users/huimin/Desktop/test4.png");
+        OutputStream png = new FileOutputStream("/users/huimin/Desktop/test1.png");
         String source = "@startuml" + "\n";
 
         //dealing with association relationship
@@ -294,9 +294,6 @@ public class Printer
                     classes.add(n.getName());
                 }
             }
-
-
-
         }
     }
 
@@ -397,39 +394,40 @@ public class Printer
             if (n.getType() == null)
             {
             }
-            else if (n.getModifiers() == 1) //public
+            else
             {
-                if (classes.contains(n.getType()) || interfaces.contains(n.getType()))
+                if (n.getType().toString().contains("<"))     //find "< >" and replace with "*"
                 {
-                    if (n.getType().toString().contains("<")) //find "< >" and replace with "*"
+                    String fieldtype = n.getType().toString();
+                    String symbol = fieldtype.substring(fieldtype.indexOf("<")+1,fieldtype.indexOf(">"));
+                    if (classes.contains(symbol) || interfaces.contains(symbol))
                     {
-                        String fieldtype = n.getType().toString();
-                        String symbol = fieldtype.substring(fieldtype.indexOf("<")+1,fieldtype.indexOf(">"));
-                        relation.append("\"1\"" + RelationSymbol.association.toString()+"\"*\"" + symbol + "\n");
-                    }
-                    else
-                    {
-                        relation.append("\"1\"" + RelationSymbol.association.toString() + "\"1\"" + n.getType()+"\n");
+                        relation.append("\" \"" + RelationSymbol.association.toString()+"\"*\"" + symbol + "\n");
                     }
                 }
                 else
                 {
-                    output.append("+");
-                    output.append(n.getVariables().toString().substring(1, n.getVariables().toString().length()-1)
-                            + " : " + n.getType() + "\n");
+                    if (classes.contains(n.getType().toString()) || interfaces.contains(n.getType().toString()))
+                    {
+                        relation.append("\" \"" + RelationSymbol.association.toString() + "\" \"" + n.getType()+"\n");
+                    }
+                    else
+                    {
+                        if (n.getModifiers() == 1)  //public
+                        {
+                            output.append("+");
+                            output.append(n.getVariables().toString().substring(1, n.getVariables().toString().length()-1)
+                                    + " : " + n.getType() + "\n");
+                        }
+                        else if (n.getModifiers() == 2)     //private
+                        {
+                            output.append("-");
+                            output.append(n.getVariables().toString().substring(1, n.getVariables().toString().length()-1)
+                                    + " : " + n.getType() + "\n");
+                        }
+                    }
                 }
-
             }
-            else if (n.getModifiers() == 2) //private
-            {
-                if (!(classes.contains(n.getType()) || interfaces.contains(n.getType()) || n.getType().toString().contains("<")))
-                {
-                    output.append("-");
-                    output.append(n.getVariables().toString().substring(1, n.getVariables().toString().length()-1)
-                            + " : " + n.getType() + "\n");
-                }
-            }
-
             //relation.append(n.getType() + "\n");
         }
 

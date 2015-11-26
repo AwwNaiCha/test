@@ -1,0 +1,25 @@
+Running Instruction:
+Unzip test.zip.
+To generate PlantUML diagrams, install Graphviz software on your machine following the instructions here(http://plantuml.com/graphvizdot.html).
+If you run it on Mac/Linux:
+Open terminal, get into the umlparser¡¯s directory(should be in test folder), run
+$./umlparser <classpath> <output file name>
+
+If you run it on Windows:
+Open terminal, get into the /test/target/ folder, run
+$java -jar test-1.0-SNAPSHOT-jar-with-dependencies.jar <classpath> <output file name>
+
+The UML diagram will be generated in the classpath.
+
+
+Compile Instruction:
+Unzip test.zip.
+To generate PlantUML diagrams, install Graphviz software on your machine following the instructions here(http://plantuml.com/graphvizdot.html).
+Install maven on your machine following the instructions here(https://maven.apache.org/install.html).
+Open terminal, get into the test folder, run:
+$mvn clean compile assembly:single
+A jar file named test-1.0-SNAPSHOT-jar-with-dependencies.jar will be generated under /test/target/ directory. (It will replace the one which has already been generated under the same directory)
+
+
+
+

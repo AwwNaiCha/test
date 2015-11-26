@@ -113,6 +113,7 @@ public class Printer
                         if (!dependent.contains(dependency))
                         {
                             dependent.add(dependency);
+                            //System.out.println(dependent);
                         }
                     }
                 }
@@ -297,7 +298,8 @@ public class Printer
         source += implementation.toString().substring(1,implementation.toString().length()-1).replace(", ","");
         source += extend.toString().substring(1,extend.toString().length()-1).replace(", ","");
         source += dependent.toString().substring(1,dependent.toString().length()-1).replace(", ","");
-        source += "\n" + "title Huimin Jian 010129561\n" + "@enduml\n";
+        //source += "\n" + "title Huimin Jian 010129561\n" + ;
+                source += "@enduml\n";
         SourceStringReader reader = new SourceStringReader(source);
         String desc = reader.generateImage(png);
         System.out.println("UML diagram is generated: " + folderpath + "/" + umlname + ".png");
@@ -320,18 +322,6 @@ public class Printer
                         extend.add(RelationSymbol.extension.toString());
                         extend.add(n.getExtends().toString().substring(1,n.getExtends().toString().length()-1));
                         extend.add("\n");
-                    }
-                    if(n.getImplements() != null)
-                    {
-                        String imple = n.getImplements().toString().substring(1,n.getImplements().toString().length()-1);
-                        String[] impleArray = imple.split(",");
-                        for(int i = 0 ; i < impleArray.length;i++)
-                        {
-                            implementation.add(n.getName());
-                            implementation.add(RelationSymbol.implement.toString());
-                            implementation.add(impleArray[i]);
-                            implementation.add("\n");
-                        }
                     }
 
                     output.add("interface ");
@@ -368,6 +358,7 @@ public class Printer
                     if(n.getImplements() != null)
                     {
                         String imple = n.getImplements().toString().substring(1,n.getImplements().toString().length()-1);
+                        imple = imple.replace(" ", "");
                         String[] impleArray = imple.split(",");
                         for(int i = 0 ; i < impleArray.length;i++)
                         {
